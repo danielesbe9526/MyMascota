@@ -10,23 +10,22 @@ import SwiftData
 
 @main
 struct MyMascotaApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Pet.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
+    let destinationViewModel: DestinationViewModel
+    let dashboardViewModel: DashboardViewModel
+    let fabric: ScreenFabric
+    
+    init() {
+        destinationViewModel = DestinationViewModel()
+        dashboardViewModel = DashboardViewModel(destination: destinationViewModel)
+        fabric = ScreenFabric(dashboardViewModel: dashboardViewModel)
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationWrapperView(viewModel: destinationViewModel, fabric: fabric) {
+                fabric.createViewFrom(screen: .main)
+            }
         }
-        .modelContainer(sharedModelContainer)
+        .modelContainer(for: Pet.self)
     }
 }
