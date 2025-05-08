@@ -15,49 +15,58 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             VStack {
-                HStack {
-                    Image(systemName: "pawprint.fill") // Logo
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.orange)
-                    
-                    Text("My Mascota")
-                        .font(.title)
-                        .fontWeight(.bold)
-                }
-                .padding()
-                
-                HStack {
-                    Image(systemName: "photo")
-                        .resizable()
-                        .frame(width: 80, height: 80)
-                        .padding()
-                        .foregroundStyle(.gray.opacity(0.5))
-                    
-                    VStack(alignment: .leading) {
-                        Text("Fido")
-                            .font(.headline)
-                        Text("Perro")
-                            .font(.subheadline)
-                        Text("Estado: Todo en orden")
-                            .font(.subheadline)
-                            .foregroundColor(.green)
+                VStack {
+                    HStack {
+                        Image(systemName: "pawprint.circle") // Logo
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.white)
+                        
+                        Text("My Mascota")
+                            .font(.title)
+                            .fontWeight(.bold)
                     }
-                    Spacer()
+                    .padding()
+                    
+                    HStack {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                            .padding()
+                            .foregroundStyle(.gray.opacity(0.5))
+                        
+                        VStack(alignment: .leading) {
+                            Image(systemName: "cat")
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                            
+                            Text("Lilo")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+
+                            Text("3 años")
+                                .font(.subheadline)
+                            
+                        }
+                        Spacer()
+                    }
+                    .padding()
                 }
-                .padding()
+                .frame(height: 400)
+                .background {
+                    LinearGradient(
+                        colors: [.cyan,.cyan.opacity(0.7), .clear],
+                        startPoint: .top,
+                        endPoint: .bottom)
+                }
+                .ignoresSafeArea()
                 
-//                "house.circle"
-//                "calendar.circle"
-//                "pills.circle"
-//                "fork.knife.circle"
-//                "tree.circle"
-                HStack(spacing: 20) {
-                    VStack {
+                HStack {
+                    VStack(alignment: .leading) {
                         Button(action: {
-                            // Acción para citas
+                            
                         }) {
-                            VStack {
+                            HStack {
                                 Image(systemName: "calendar.circle")
                                     .font(.largeTitle)
                                     .foregroundColor(.blue)
@@ -65,42 +74,40 @@ struct ContentView: View {
                                     .font(.caption)
                             }
                         }
-                    }
-                    
-                    VStack {
+                        
+                        
                         Button(action: {
-                            // Acción para medicaciones
+                            
                         }) {
-                            VStack {
-                                Image(systemName: "pills")
+                            HStack {
+                                Image(systemName: "pills.circle")
                                     .font(.largeTitle)
                                     .foregroundColor(.red)
                                 Text("Medicaciones")
                                     .font(.caption)
                             }
                         }
+                        
                     }
-                    // Alimentación
-                    VStack {
+                    
+                    VStack(alignment: .leading) {
                         Button(action: {
-                            // Acción para alimentación
+                            
                         }) {
-                            VStack {
-                                Image(systemName: "fork.knife")
+                            HStack {
+                                Image(systemName: "fork.knife.circle")
                                     .font(.largeTitle)
                                     .foregroundColor(.green)
                                 Text("Alimentación")
                                     .font(.caption)
                             }
                         }
-                    }
-                    // Actividades
-                    VStack {
+                        
                         Button(action: {
-                            // Acción para actividades
+                            
                         }) {
-                            VStack {
-                                Image(systemName: "pawprint")
+                            HStack {
+                                Image(systemName: "tree.circle")
                                     .font(.largeTitle)
                                     .foregroundColor(.orange)
                                 Text("Actividades")
