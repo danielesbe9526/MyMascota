@@ -18,10 +18,6 @@ final class DashboardViewModel: ObservableObject {
         self.modelContext = modelContext
     }
     
-    func getColorImage() -> Image {
-        
-    }
-    
     func addPet(name: String, type: PetType, age: Int) {
         let pet = Pet(name: "",
                       type: type.rawValue,

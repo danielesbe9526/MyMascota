@@ -9,42 +9,82 @@ import SwiftUI
 
 struct DashboardView: View {
     @ObservedObject var dashboardViewModel: DashboardViewModel
-    @State var tab: TabState
+    
+    @State private var selectedType: PetType = .dog
+    @State private var name: String = ""
+    @State private var age: String = ""
+    
     var body: some View {
-        TabView {
-            ContentView(viewModel: dashboardViewModel)
-                .tabItem {
-                    Label("Main", systemImage: "house.circle")
-                }
-                .tag(TabState.main)
+        VStack {
+            Image(ImageResource.perroYGato)
+                .resizable()
+                .scaledToFill()
+                .frame(height: 200)
+                .padding(.top, 40)
+                .padding(.bottom, -45)
             
-     
-            MedicalAppointmentView()
-                .tabItem {
-                    Label("Citas", systemImage: "calendar.circle")
-                }
-            
-            MedicationsView()
-                .tabItem {
-                    Label("Medicaciones", systemImage: "pills.circle")
+            VStack {
+                Text("Bienvenido")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                Text("Debes registrar primero a tu mascota")
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .padding(.bottom)
+            }
+            .frame(maxWidth: .infinity)
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .padding(.horizontal, 8)
 
+            Form {
+                Picker("Tipo de mascota", selection: $selectedType) {
+                    Text("Perro")
+                        .tag(PetType.dog)
+                    Text("Gato")
+                        .tag(PetType.cat)
+                    Text("Pez")
+                        .tag(PetType.fish)
+                    Text("Otro")
+                        .tag(PetType.other)
+                }.pickerStyle(.palette)
+                
+                TextField("Nombre", text: $name)
+                
+                TextField("Edad", text: $age)
+                    .keyboardType(.numberPad)
+                
+                Button("Sube una foto de tu mascota", systemImage: "photo") {
+                    
                 }
+                .buttonStyle(.plain)
+                .background(.cyan)
+                .foregroundStyle(.white)
+                
+            }
+            .background(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .padding(.horizontal, 8)
             
-            FoodView()
-                .tabItem {
-                    Label("Alimentacion", systemImage: "fork.knife.circle")
+            HStack {
+                Spacer()
+                Button("Continar") {
+                    
                 }
+                .background(.white)
+                .buttonStyle(.borderedProminent)
+            }
+            .padding(.horizontal, 8)
             
-            ActivityView()
-                .tabItem {
-                    Label("Actividades", systemImage: "tree.circle")
-                }
+            Spacer()
         }
+        .background(.cyan)
     }
 }
 
 #Preview {
-    DashboardView(dashboardViewModel: DashboardViewModel(), tab: .main)
+    DashboardView(dashboardViewModel: DashboardViewModel())
 }
 
 
