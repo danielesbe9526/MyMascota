@@ -6,13 +6,17 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct DashboardView: View {
-    @ObservedObject var dashboardViewModel: DashboardViewModel
+    @ObservedObject var viewModel: DashboardViewModel
     
     @State private var selectedType: PetType = .dog
     @State private var name: String = ""
     @State private var age: String = ""
+    @State private var inputImage: UIImage?
+    @State private var imagePickerItem: PhotosPickerItem?
+    @State private var imageData: Data? = nil
     
     var body: some View {
         VStack {
@@ -20,7 +24,7 @@ struct DashboardView: View {
                 .resizable()
                 .scaledToFill()
                 .frame(height: 200)
-                .padding(.top, 40)
+                .padding(.top, 100)
                 .padding(.bottom, -45)
             
             VStack {
@@ -28,7 +32,7 @@ struct DashboardView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
-                Text("Debes registrar primero a tu mascota")
+                Text("Primero debes registrar  a tu mascota")
                     .font(.caption)
                     .fontWeight(.medium)
                     .padding(.bottom)
@@ -55,36 +59,74 @@ struct DashboardView: View {
                 TextField("Edad", text: $age)
                     .keyboardType(.numberPad)
                 
-                Button("Sube una foto de tu mascota", systemImage: "photo") {
-                    
+                PhotosPicker(selection: $imagePickerItem) {
+                    HStack(spacing: 20) {
+                        
+                        Image(uiImage: (inputImage ?? UIImage(systemName: "photo"))!)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 50, height: 50)
+                        
+                        Text("Sube una foto de tu mascota")
+                    }
+                    .padding()
+                    .background(.cyan)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                    .buttonStyle(.bordered)
+                    .foregroundStyle(.white)
                 }
-                .buttonStyle(.plain)
-                .background(.cyan)
-                .foregroundStyle(.white)
-                
             }
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.horizontal, 8)
+            .frame(height: 300)
+            .padding()
+            
+            Spacer()
             
             HStack {
                 Spacer()
-                Button("Continar") {
-                    
+                Button("Continuar") {
+                    viewModel.addPet(name: name,
+                                     type: selectedType,
+                                     age: age,
+                                     image: imageData)
                 }
-                .background(.white)
-                .buttonStyle(.borderedProminent)
+                .background(.cyan)
+                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .buttonStyle(.bordered)
+                .foregroundStyle(.white)
+                    
             }
-            .padding(.horizontal, 8)
+            .padding()
             
             Spacer()
         }
-        .background(.cyan)
+        .background {
+            LinearGradient(
+                colors: [.cyan, .white],
+                startPoint: .top,
+                endPoint: .bottom)
+        }
+        .ignoresSafeArea()
+        .onChange(of: imagePickerItem) { _ , newValue in
+            Task {
+                if let imagePickerItem,
+                   let data = try? await imagePickerItem.loadTransferable(type: Data.self) {
+                    imageData = data
+                    
+                    if let image = UIImage(data: data) {
+                        inputImage = image
+                    }
+                }
+                
+                imagePickerItem = nil
+            }
+        }
     }
 }
 
 #Preview {
-    DashboardView(dashboardViewModel: DashboardViewModel())
+    DashboardView(viewModel: DashboardViewModel())
 }
 
 

@@ -12,6 +12,9 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject var viewModel: DashboardViewModel
     
+    @Query(sort: \Pet.name, order: .forward)
+    var pets: [Pet]
+    
     var body: some View {
         NavigationView {
             VStack {

@@ -18,14 +18,21 @@ final class DashboardViewModel: ObservableObject {
         self.modelContext = modelContext
     }
     
-    func addPet(name: String, type: PetType, age: Int) {
-        let pet = Pet(name: "",
+    func addPet(name: String, type: PetType, age: String, image: Data?) {
+        guard let age = Int(age) else { return }
+        
+        let pet = Pet(name: name,
                       type: type.rawValue,
-                      age: age)
+                      age: age,
+                      image: image)
+        
+        modelContext?.insert(pet)
+        routeToMain()
     }
-    
 }
 
 extension DashboardViewModel {
-
+    func routeToMain() {
+        destination?.navigateTo(screen: .main)
+    }
 }

@@ -13,11 +13,13 @@ final class Pet: Sendable {
     var name: String
     var type: String
     var age: Int
+    var image: Data?
     
-    init(name: String, type: String, age: Int) {
+    init(name: String, type: String, age: Int, image: Data? = nil) {
         self.name = name
         self.type = type
         self.age = age
+        self.image = image
     }
     
     static func example() -> Pet {

@@ -14,6 +14,9 @@ struct MyMascotaApp: App {
     let dashboardViewModel: DashboardViewModel
     let fabric: ScreenFabric
     
+    @Query(sort: \Pet.name, order: .forward)
+    var pets: [Pet]
+    
     init() {
         destinationViewModel = DestinationViewModel()
         dashboardViewModel = DashboardViewModel(destination: destinationViewModel)
@@ -23,7 +26,11 @@ struct MyMascotaApp: App {
     var body: some Scene {
         WindowGroup {
             NavigationWrapperView(viewModel: destinationViewModel, fabric: fabric) {
-                fabric.createViewFrom(screen: .main)
+                if pets.isEmpty {
+                    fabric.createViewFrom(screen: .dashboard)
+                } else {
+                    fabric.createViewFrom(screen: .main)
+                }
             }
         }
         .modelContainer(for: Pet.self)

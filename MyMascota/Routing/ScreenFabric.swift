@@ -10,6 +10,7 @@ import SwiftUI
 
 public enum ScreenDestination: Equatable, Sendable, Hashable {
     case main
+    case dashboard
 }
 
 struct ScreenFabric {
@@ -24,6 +25,9 @@ struct ScreenFabric {
         switch screen {
         case .main:
             ContentView(viewModel: dashboardViewModel)
+        case .dashboard:
+            DashboardView(viewModel: dashboardViewModel)
+            
         }
     }
 }
